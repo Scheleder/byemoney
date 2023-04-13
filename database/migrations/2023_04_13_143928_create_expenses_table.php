@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('due_date')->useCurrent = true;
             $table->dateTime('paid_date')->useCurrent = true;
             $table->string('barcode',255)->nullable();
+            $table->boolean('paid')->default('0');
             $table->timestamps();
         });
     }

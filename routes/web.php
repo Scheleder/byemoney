@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/toggle-theme/{id}', [ProfileController::class, 'toggleTheme'])->name('toggle-theme');
     Route::get('/to-me', [ExpenseController::class, 'toMe'])->name('to-me');
     Route::get('/to-all', [ExpenseController::class, 'toAll'])->name('to-all');
+    Route::get('/attach-user/{expense},{user}', [ExpenseController::class, 'attachUser'])->name('attach-user');
+    Route::get('/detach-user/{expense}', [ExpenseController::class, 'detachUser'])->name('detach-user');
 });
 
 require __DIR__.'/auth.php';

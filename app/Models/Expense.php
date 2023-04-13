@@ -18,6 +18,7 @@ class Expense extends Model
         'due_date',
         'paid_date',
         'barcode',
+        'paid',
     ];
 
     protected $casts = [

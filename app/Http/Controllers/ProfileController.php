@@ -107,7 +107,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         notify()->success('Usuário excluído!');
-        $this->logService->addLog(auth()->user()->id, auth()->name.' foi removido');
+        $this->logService->addLog(auth()->user()->id, auth()->user()->name.' foi removido');
 
         return Redirect::to('/');
     }
