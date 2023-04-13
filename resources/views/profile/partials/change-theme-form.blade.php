@@ -17,10 +17,12 @@
         @csrf
         @method('patch')
 
-        <div>
-            <input class="h-6 w-6 rounded bg-gray-400"
-            type="checkbox" name="dark" id="dark" value="1" {{ $user->configuration->dark ? 'checked' : ''}}>
-            <Label class="ml-2 font-bold  text-gray-900 dark:text-gray-400" for="dark">{{ __('Use Dark Mode') }}</Label>
+        <div class="relative z-0 w-full mb-6 group">
+            <select id="theme" name="theme"
+                class="block py-2.5 px-3 w-full text-gray-900 dark:text-gray-300 bg-gray-200 dark:bg-gray-900 border-gray-300 dark:border-gray-700 rounded-lg appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                    <option class="py-1" value="dark"  {{ $user->configuration->dark ? 'selected' : ''}}>Dark</option>
+                    <option class="py-1" value="light" {{ $user->configuration->dark ? '' : 'selected'}}>Light</option>
+            </select>
         </div>
 
 

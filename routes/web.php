@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ExpenseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('generate-pdf');
     Route::get('/toggle-theme/{id}', [ProfileController::class, 'toggleTheme'])->name('toggle-theme');
+    Route::get('/to-me', [ExpenseController::class, 'toMe'])->name('to-me');
+    Route::get('/to-all', [ExpenseController::class, 'toAll'])->name('to-all');
 });
 
 require __DIR__.'/auth.php';
