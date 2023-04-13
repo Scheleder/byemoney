@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\LogService;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Configuration;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -15,6 +17,10 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    public function __construct(LogService $logService)
+    {
+        $this->logService = $logService;
+    }
     /**
      * Display the registration view.
      */
@@ -45,6 +51,10 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        notify()->success('Usuário ciado com sucesso!');
+        $this->logService->addLog($user->id, $user->name.' foi adicionado');
+        $configuration = Configuration::firstOrCreate(['user_id' => $user->id]);
 
         return redirect(RouteServiceProvider::HOME);
     }

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configurations', function (Blueprint $table) {
+        Schema::create('creditors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); //user
-            $table->boolean('dark')->default('0');
-            $table->string('image')->nullable()->default('foto.png');
-            $table->string('cpf', 100)->nullable();
-            $table->string('pix', 100)->nullable();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('configurations');
+        Schema::dropIfExists('creditors');
     }
 };

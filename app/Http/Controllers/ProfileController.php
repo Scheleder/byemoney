@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\LogService;
+use App\Services\CpfService;
 use App\Models\Configuration;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\View\View;
@@ -13,6 +15,12 @@ use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
+    public function __construct(LogService $logService, CpfService $cpfService)
+    {
+        $this->cpfService = $cpfService;
+        $this->logService = $logService;
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -28,7 +36,20 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        info($request);
+        //info($request);
+
+        if($request->cpf || $request->pix){
+            if(!$this->cpfService->validate($request->cpf) )
+            {
+                notify()->warning('CPF inválido!');
+                return redirect(url()->previous());
+            }
+            $configuration = Configuration::firstOrCreate(['user_id' => $request->user()->id]);
+            $configuration->cpf = preg_replace('/[^0-9]/is', '', $request->cpf);
+            $configuration->pix = $request->pix;
+            $configuration->save();
+        }
+
         if($request->theme){
             $configuration = Configuration::firstOrCreate(['user_id' => $request->user()->id]);
             if($request->theme == 'dark')$request->dark = '1';
@@ -49,7 +70,7 @@ class ProfileController extends Controller
             //$requestImage->move(public_path('img/products'), $imageName);
             $configuration->image = $imageName;
             Image::make($requestImage)->resize(200, 200)->save(public_path('img/users/').$imageName, 60, 'jpg');
-            info($imageName);
+            //info($imageName);
             $configuration->save();
         }
 
@@ -62,6 +83,8 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+        notify()->success('Salvo!');
+        $this->logService->addLog($request->user()->id, $request->user()->name.' atualizou suas informações de perfil');
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -83,6 +106,8 @@ class ProfileController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        notify()->success('Usuário excluído!');
+        $this->logService->addLog(auth()->user()->id, auth()->name.' foi removido');
 
         return Redirect::to('/');
     }

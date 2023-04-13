@@ -13,7 +13,7 @@
             x-transition:leave-end="opacity-0"
             @class([
                 'pointer-events-auto w-full max-w-sm overflow-hidden shadow-lg rounded-lg border-l-4',
-                'bg-gray-300' => config('notify.theme') === 'light',
+                'bg-gray-200' => config('notify.theme') === 'light',
                 'bg-slate-800' => config('notify.theme') !== 'light',
                 'border-green-500' => session()->get('notify.type') === 'success',
                 'border-yellow-500' => session()->get('notify.type') === 'warning',

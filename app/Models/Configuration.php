@@ -9,6 +9,14 @@ class Configuration extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'dark',
+        'image',
+        'cpf',
+        'pix',
+    ];
+
     /**
      * Get the user that owns the Config
      *
