@@ -14,6 +14,7 @@
         <!-- Scripts -->
         @notifyCss
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     </head>
     <body class="font-sans antialiased">
 
@@ -35,11 +36,11 @@
             @endphp
 
             <!-- Page Content -->
-            <main>
+            <main class="">
                 {{ $slot }}
             </main>
         </div>
-        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script> --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
         <x-notify::notify />
         @notifyJs
     </body>

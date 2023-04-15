@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\CreditorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/to-all', [ExpenseController::class, 'toAll'])->name('to-all');
     Route::get('/attach-user/{expense},{user}', [ExpenseController::class, 'attachUser'])->name('attach-user');
     Route::get('/detach-user/{expense}', [ExpenseController::class, 'detachUser'])->name('detach-user');
+    Route::post('/expense/create', [ExpenseController::class, 'create'])->name('expense-create');
+    Route::post('/creditor/create', [CreditorController::class, 'create'])->name('creditor-create');
 });
 
 require __DIR__.'/auth.php';
